@@ -7,6 +7,14 @@ import Search from './Search';
 const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
 
+  useEffect(() => {})
+
+  fetch('https://react-hooks-8a009.firebaseio.com/ingredients.json').then(res => {
+      return res.json();
+    }).then(resData => {
+
+    })
+
   // ingredient = {}
   const addIngredientHandler = (ingredient) => {
     fetch('https://react-hooks-8a009.firebaseio.com/ingredients.json', {
