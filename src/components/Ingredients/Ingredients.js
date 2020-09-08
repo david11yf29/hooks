@@ -7,13 +7,25 @@ import Search from './Search';
 const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
 
-  useEffect(() => {})
+  useEffect(() => {
+    fetch('https://react-hooks-8a009.firebaseio.com/ingredients.json')
+      .then(res => {
+        return res.json();
+      })
+      .then(resData => {
+        const loadedIngredients = [];
+        for (const key in resData) {
+          loadedIngredients.push({
+            id: key,
+            title: resData[key].title,
+            amount: resData[key].amount
+          })
+        }
+        setUserIngredients(loadedIngredients)
+      })
+  }, [])
 
-  fetch('https://react-hooks-8a009.firebaseio.com/ingredients.json').then(res => {
-      return res.json();
-    }).then(resData => {
-
-    })
+  
 
   // ingredient = {}
   const addIngredientHandler = (ingredient) => {
