@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -12,10 +12,12 @@ const Ingredients = () => {
     fetch('https://react-hooks-8a009.firebaseio.com/ingredients.json', {
       method: 'POST',
       body: JSON.stringify(ingredient),
-      headers: {'Content-Type': 'application/json'}
-    }).then(res => {
+      // headers: {'Content-Type': 'application/json'}
+    })
+    .then(res => {
       return res.json();
-    }).then(responseData => {
+    })
+    .then(responseData => {
       setUserIngredients(prevIngredients => [
         ...prevIngredients,
         { id: responseData.name, ...ingredient }
