@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import Card from '../UI/Card';
 import './Search.css';
 
 const Search = React.memo(props => {
-  const [enteredFilter, setEnteredFilter] = useState('');
-
-  useEffect(() => {
-    
-  }, [enteredFilter])
-
   return (
     <section className="search">
       <Card>
         <div className="search-input">
           <label>Filter by Title</label>
-          <input 
-            type="text" 
-            value={enteredFilter} 
-            onChange={event => setEnteredFilter(event.target.value)} />
+          <input type="text" />
         </div>
       </Card>
     </section>
