@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import IngredientForm from './IngredientForm';
 import IngredientList from './IngredientList';
@@ -8,26 +8,14 @@ const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
 
   useEffect(() => {
-    fetch('https://react-hooks-8a009.firebaseio.com/ingredients.json')
-      .then(res => res.json())
-      .then(resData => {
-        const loadedIngredients = [];
-        for (const key in resData) {
-          // 創一個 array 把收到 data 放進去
-          loadedIngredients.push({
-            id: key,
-            title: resData[key].title,
-            amount: resData[key].amount
-          })
-        }
-        // 再把這個 array 丟到 setState
-        setUserIngredients(loadedIngredients);
-      })
-  }, [])
-
-  useEffect(() => {
     console.log('RENDERING INGREDiENTS');
   })
+
+  // 當 component re-render 時, filteredIngredientsHandler 不會重新 create 因為有
+  // useCallback 在
+  const filteredIngredientsHandler = useCallback(filteredIngredients => {
+    setUserIngredients(filteredIngredients)
+  },[]);
 
   const addIngredientHandler = ingredient => {
     fetch('https://react-hooks-8a009.firebaseio.com/ingredients.json', {
@@ -49,8 +37,10 @@ const Ingredients = () => {
       <IngredientForm onAddIngredient={addIngredientHandler} />
 
       <section>
-        <Search />
-        <IngredientList ingredients={userIngredients} onRemoveItem={() => {}} />
+        <Search onLoadIngredients={filteredIngredientsHandler} />
+        <IngredientList 
+          ingredients={userIngredients} 
+          onRemoveItem={() => {}} />
       </section>
     </div>
   );
