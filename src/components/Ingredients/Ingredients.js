@@ -8,28 +8,34 @@ const Ingredients = () => {
   const [userIngredients, setUserIngredients] = useState([]);
 
   useEffect(() => {
-    console.log('RENDERING INGREDiENTS');
-  })
+    console.log('RENDERING INGREDIENTS', userIngredients);
+  }, [userIngredients]);
 
-  // 當 component re-render 時, filteredIngredientsHandler 不會重新 create 因為有
-  // useCallback 在
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
-    setUserIngredients(filteredIngredients)
-  },[]);
+    setUserIngredients(filteredIngredients);
+  }, []);
 
   const addIngredientHandler = ingredient => {
-    fetch('https://react-hooks-8a009.firebaseio.com/ingredients.json', {
-      method: "POST",
+    fetch('https://react-hooks-update.firebaseio.com/ingredients.json', {
+      method: 'POST',
       body: JSON.stringify(ingredient),
-      headers: {"Content-Type": "application/json"}
-    }).then(response => {
-      return response.json();
-    }).then(responseData => {
-      setUserIngredients(prevIngredients => [
-        ...prevIngredients,
-        { id: Math.random().toString(), ...ingredient }
-      ]);
-    });
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(responseData => {
+        setUserIngredients(prevIngredients => [
+          ...prevIngredients,
+          { id: responseData.name, ...ingredient }
+        ]);
+      });
+  };
+
+  const removeIngredientHandler = ingredientId => {
+    setUserIngredients(prevIngredients =>
+      prevIngredients.filter(ingredient => ingredient.id !== ingredientId)
+    );
   };
 
   return (
@@ -38,9 +44,10 @@ const Ingredients = () => {
 
       <section>
         <Search onLoadIngredients={filteredIngredientsHandler} />
-        <IngredientList 
-          ingredients={userIngredients} 
-          onRemoveItem={() => {}} />
+        <IngredientList
+          ingredients={userIngredients}
+          onRemoveItem={removeIngredientHandler}
+        />
       </section>
     </div>
   );
