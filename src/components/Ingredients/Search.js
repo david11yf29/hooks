@@ -16,7 +16,7 @@ const Search = React.memo(props => {
             ? ''
             : `?orderBy="title"&equalTo="${enteredFilter}"`;
         fetch(
-          'https://react-hooks-update.firebaseio.com/ingredients.json' + query
+          'https://react-hooks-8a009.firebaseio.com/ingredients.json' + query
         )
           .then(response => response.json())
           .then(responseData => {
