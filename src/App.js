@@ -1,9 +1,11 @@
 import React from 'react';
 
-import Ingredients from './components/Ingredients/Ingredients';
+import UseStateExample from './components/use-state-example/use-state-example.component';
+
+import './App.css';
 
 const App = props => {
-  return <Ingredients />;
+  return <UseStateExample />;
 };
 
 export default App;
